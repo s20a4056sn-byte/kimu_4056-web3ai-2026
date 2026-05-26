@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オヤココ (OyaKoko) - リアルタイム出費検知チャット型家計簿</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="貯金ができないせいで親孝行ができない悩みを解決する、リアルタイム出費検知とチャット型AIアシスタントを搭載した新感覚家計簿アプリ「オヤココ」のプロトタイプ。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- JavaScript -->
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <!-- Background Blur Decorative Circles -->
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+    <div class="bg-circle bg-circle-3"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <div class="brand-text">
+                    <h1>オヤココ <span>OyaKoko</span></h1>
+                    <p class="tagline">リアルタイム出費検知 × 親孝行サポート</p>
+                </div>
+            </div>
+            <div class="user-status">
+                <div class="status-indicator online"></div>
+                <span>リアルタイム検知：稼働中</span>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="app-container">
+            
+            <!-- Left Panel: Simulator & Info -->
+            <section class="panel panel-left" id="simulator-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                        <h2>決済リアルタイム検知シミュレーター</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p class="simulator-desc">クレジットカードやデビットカードの決済が走った瞬間をシミュレートします。ボタンを押すと、<strong>リアルタイムに出費を検知</strong>し、AIココが自動でチャットに警告を介入させます。</p>
+                    
+                    <div class="simulator-buttons">
+                        <button class="sim-btn sim-danger" data-amount="1500" data-item="クレーンゲーム" data-category="ゲーム・娯楽">
+                            <span class="sim-btn-icon">🕹️</span>
+                            <span class="sim-btn-text">
+                                <strong>クレーンゲーム決済</strong>
+                                <span class="sim-btn-sub">¥1,500 - ゲームセンター</span>
+                            </span>
+                        </button>
+
+                        <button class="sim-btn sim-danger" data-amount="5000" data-item="ソシャゲガチャ課金" data-category="ゲーム・娯楽">
+                            <span class="sim-btn-icon">💎</span>
+                            <span class="sim-btn-text">
+                                <strong>ソシャゲ課金決済</strong>
+                                <span class="sim-btn-sub">¥5,000 - アプリストア</span>
+                            </span>
+                        </button>
+
+                        <button class="sim-btn sim-warning" data-amount="600" data-item="スターバックスコーヒー" data-category="カフェ・軽食">
+                            <span class="sim-btn-icon">☕</span>
+                            <span class="sim-btn-text">
+                                <strong>カフェ決済</strong>
+                                <span class="sim-btn-sub">¥600 - カフェ・ド・ココ</span>
+                            </span>
+                        </button>
+
+                        <button class="sim-btn sim-success" data-amount="10000" data-item="お母さんへのプレゼント用貯金" data-category="親孝行">
+                            <span class="sim-btn-icon">🎁</span>
+                            <span class="sim-btn-text">
+                                <strong>親孝行口座への入金</strong>
+                                <span class="sim-btn-sub">¥10,000 - 専用貯蓄</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="app-info-card">
+                        <h3>💡 なぜ「オヤココ」なのか？</h3>
+                        <p>「貯金ができないせいで親孝行ができない」というバグを解消するためのアプリです。無駄遣い（特に衝動的なゲームや同じような買い物）を<b>決済直後（リアルタイム）</b>に検知して警告し、親孝行用のプレゼント資金を着実にプールする習慣を作ります。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Panel: Chat Area -->
+            <section class="panel panel-center" id="chat-panel">
+                <div class="panel-header">
+                    <div class="panel-title chat-agent-info">
+                        <div class="agent-avatar">
+                            <span>ココ</span>
+                            <span class="avatar-badge">AI</span>
+                        </div>
+                        <div>
+                            <h2>AIアシスタント「ココ」</h2>
+                            <p class="agent-status">あなたの貯金を親身に見守り中</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be injected here by app.js -->
+                </div>
+
+                <form class="chat-input-area" id="chat-form">
+                    <input type="text" id="chat-input" placeholder="例: 「お昼ご飯に850円使った」「ガチャに3000円」" autocomplete="off" required>
+                    <button type="submit" class="send-btn" id="send-btn" aria-label="送信">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Dashboard -->
+            <section class="panel panel-right" id="dashboard-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line><line x1="2" y1="20" x2="22" y2="20"></line></svg>
+                        <h2>リアルタイム家計状況</h2>
+                    </div>
+                </div>
+                <div class="panel-body dashboard-body">
+                    
+                    <!-- Filial Piety Meter (親孝行メーター) -->
+                    <div class="dash-card target-card">
+                        <div class="card-header">
+                            <span class="card-icon">🎁</span>
+                            <div>
+                                <h3>親孝行ターゲット目標</h3>
+                                <p class="target-name">お母さんへの温泉旅行プレゼント</p>
+                            </div>
+                        </div>
+                        <div class="target-progress-area">
+                            <div class="target-progress-header">
+                                <span class="progress-percent" id="target-percent">50%</span>
+                                <span class="progress-amount"><span id="target-current">¥25,000</span> / ¥50,000</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="target-progress-bar" style="width: 50%;"></div>
+                            </div>
+                            <div class="target-eta">
+                                📅 目標達成予定日: <strong>2026年9月の敬老の日</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Budget & Savings Status -->
+                    <div class="dash-row">
+                        <!-- Daily Budget (今日使えるお金) -->
+                        <div class="dash-card budget-card">
+                            <h3>今日使えるお金</h3>
+                            <div class="circular-progress-container">
+                                <svg class="circular-progress" viewBox="0 0 100 100">
+                                    <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                                    <circle class="circle-fill" id="daily-circle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="83.7"></circle>
+                                </svg>
+                                <div class="circular-progress-text">
+                                    <span class="budget-remaining" id="daily-remaining">¥2,000</span>
+                                    <span class="budget-total">/ ¥3,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Savings Status (貯金ペース) -->
+                        <div class="dash-card pace-card">
+                            <h3>貯金ペース判定</h3>
+                            <div class="pace-status" id="pace-status-container">
+                                <div class="pace-badge badge-success" id="pace-badge">安全</div>
+                                <p class="pace-desc" id="pace-desc">このペースを維持できれば、目標日までにプレゼントを購入できます！非常に順調です。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Warnings and Similar Purchases (類似購入警告エリア) -->
+                    <div class="dash-card warnings-card">
+                        <div class="card-header">
+                            <span class="card-icon">⚠️</span>
+                            <h3>重複・類似出費アラート</h3>
+                        </div>
+                        <div class="warnings-list" id="warnings-list">
+                            <!-- Injected by app.js -->
+                            <div class="no-warning">現在、類似商品の重複購入に関する警告はありません。無駄遣いゼロを維持しています！</div>
+                        </div>
+                    </div>
+
+                    <!-- Expense History (最近の支出) -->
+                    <div class="dash-card history-card">
+                        <div class="card-header">
+                            <span class="card-icon">📊</span>
+                            <h3>本日検知した出費ログ</h3>
+                        </div>
+                        <div class="history-list" id="history-list">
+                            <!-- Injected by app.js -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
